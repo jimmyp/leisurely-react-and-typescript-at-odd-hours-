@@ -3,7 +3,7 @@ const sundayString = 'Sunday';
 const saturdayNumber = 6;
 const sundayNumber = 7;
 
-function goToWork(dayOfWeek) {
+export function goToWork(dayOfWeek) {
     if (dayOfWeek === saturdayNumber 
         || dayOfWeek === sundayString
         || dayOfWeek === saturdayNumber
@@ -14,9 +14,14 @@ function goToWork(dayOfWeek) {
     return `Working hard or hardly working?`;
 }
 
-console.log(goToWork('Saturday'));
-console.log(goToWork('Sunday'));
-console.log(goToWork(6));
-console.log(goToWork(7));
-console.log(goToWork(5));
+describe('go to work', () => {
+    it('run', () => {
 
+        console.log(goToWork('Saturday'));
+        console.log(goToWork('Sunday'));
+        console.log(goToWork(6));
+        console.log(goToWork(7));
+        console.log(goToWork(5));
+
+    });
+});
