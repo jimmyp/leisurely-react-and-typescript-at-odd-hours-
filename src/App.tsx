@@ -6,7 +6,7 @@ type Props = {
 };
 
 type Image = { url: string; rotation: number };
-type AppState = { images: Image[], current: number };
+type AppState = { images: Image[], index: number };
 
 const images: Image[] = [
   'https://pixabay.com/get/g270eabca866bee45a47ffd9cb7720759b947316107f75cb259071bbdb018d21dd833c2c75f9b93458986b0d32c2501e8ab99455190c8862da8a5a610e5bb612d_640.jpg',
@@ -17,17 +17,21 @@ const images: Image[] = [
 function App(props: Props) {
   const [appState, setAppState] = useState<AppState>({
     images,
-    current: 0
+    index: 0
   });
 
+  const currentIndex = inBound(appState.index, appState.images.length);
+  const currentImage = appState.images[currentIndex];
+
   const rotateImage = () => {
-    setAppState({ ...appState });
+    setAppState({ 
+      ...appState, 
+      images: appState.images.map((img, idx) => idx === currentIndex ? { ...img, rotation: img.rotation + 30 } : img) 
+    });
   };
 
-  const next = () => setAppState({ ...appState, current: appState.current + 1 });
-  const prev = () => setAppState({ ...appState, current: appState.current - 1 });
-
-  const currentImage = appState.images[inBound(appState.current, appState.images.length)];
+  const next = () => setAppState({ ...appState, index: appState.index + 1 });
+  const prev = () => setAppState({ ...appState, index: appState.index - 1 });
 
   return (
     <div className="App">
@@ -42,8 +46,8 @@ function App(props: Props) {
           alt="logo" />
       </header>
       <nav style={ { marginTop: '200px' } }>
-        <button onClick={ ()=>rotateImage() }>Rotate</button>
         <button onClick={ ()=>prev() }>Previous</button>
+        <button onClick={ ()=>rotateImage() }>Rotate</button>
         <button onClick={ ()=>next() }>Next</button>
       </nav>
     </div>
