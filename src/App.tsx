@@ -1,28 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useState } from 'react';
 import './App.css';
-import { storeContext, Image } from './StateProvider';
+import { AppState, initialAppState, Image } from './store';
 
 type Props = {
   borderColour: 'blue' | 'red'
 };
 
 function App(props: Props) {
-  const store = useContext(storeContext);
-  const { state: appState, setState: setAppState } = store;
+  const appState = initialAppState;
+  const setAppState = (fn: (preState: any) => null) => null;
 
   const currentIndex = inBound(appState.index, appState.images.length);
   const currentImage = appState.images[currentIndex];
 
-  const rotateImage = () => {
-    setAppState(prevState => ({ 
-      ...prevState, 
-      images: prevState.images.map((img, idx) => idx === currentIndex ? { ...img, rotation: img.rotation + 30 } : img) 
-    }));
-  };
+  const getCurrentImage = (st: AppState) => st.images.map((img, idx) => idx === currentIndex ? { ...img, rotation: img.rotation + 30 } : img);
 
-  const next = () => setAppState({ ...appState, index: appState.index + 1 });
-  const prev = () => setAppState({ ...appState, index: appState.index - 1 });
+  const rotateImage = () => console.log('rotate');
 
+  const next = () => console.log('next');
+  const prev = () => console.log('pre');
 
   return (
     <div className="App">
@@ -30,7 +26,7 @@ function App(props: Props) {
         <Frame image={currentImage} />
       </header>
       <nav style={ { marginTop: '200px' } }>
-        <Controls prev={prev} next={next} rotateImage={rotateImage} />
+        <Controls next={next} prev={prev} rotateImage={rotateImage} />
       </nav>
     </div>
   );
@@ -42,7 +38,7 @@ type ControlsProps = {
   next: () => void,
 }
 
-function Controls(props: ControlsProps) {
+const Controls = memo((props: ControlsProps) => {
   const { prev, next, rotateImage } = props;
   return (
     <>
@@ -51,7 +47,7 @@ function Controls(props: ControlsProps) {
       <button onClick={ ()=>next() }>Next</button>
     </>
   );
-}
+});
 
 type FrameProps = { image: Image };
 function Frame(props: FrameProps) {
