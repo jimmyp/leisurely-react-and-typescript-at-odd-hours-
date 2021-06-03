@@ -14,9 +14,9 @@ export const storeContext = createContext<StateContext>({
 });
 
 const images: Image[] = [
-  'https://pixabay.com/get/g270eabca866bee45a47ffd9cb7720759b947316107f75cb259071bbdb018d21dd833c2c75f9b93458986b0d32c2501e8ab99455190c8862da8a5a610e5bb612d_640.jpg',
-  'https://pixabay.com/get/gbd79d11939b1a5f53e4a32d0e52a101c555ee0f904b5bb867b69b35970f5e59c34030383eeef180d58ad3a13b9828954509333e4ff54e254cfe45882a14c2890_640.jpg',
-  'https://pixabay.com/get/g834cbd7a99d37031de50711ad1768504b85c6eaeb06b399df7dd0b5057fff4803d88cd63a7ca2214979c01732ad11521e9dc0e96302ccb4e6d64f1827a532614_640.jpg'
+  'https://pixabay.com/get/g0cedebeb050fa1a81f0ae4c8e4af9ed105c554ba2d5fd8f2b99ff048a3f62930e9843b6bbe0f1ec2a901a6144ffa2b18_640.jpg',
+  'https://pixabay.com/get/g8b437fa8d4303cd68ac0eb4543bccb0d7f101afef2bae54f6fc83f030430283f32e44800f9ebd92cfd70f757a77c19a1c0a221bcb08f3f4c5bd007520856663c_640.jpg',
+  'https://pixabay.com/get/g11a58b624a262c3df0a0d0081dc98b08988056bb4282e3977de70aff4ed6bfaad2ec137838c9ff90d1f1253d1276bde2b23c0ada8091a1caec7ae81244a53862_640.jpg'
 ].map(img => ({ url: img, rotation: 0 }));
 
 const initialAppState = {
