@@ -17,6 +17,33 @@ export const initialAppState = {
 export const store = createStore(reducer, initialAppState, composeWithDevTools());
 
 // (State, Action) -> State
-function reducer(state: AppState = initialAppState, action: AnyAction): AppState {
+function reducer(
+    state: AppState = initialAppState, 
+    action: RotateImageAction | AnyAction
+): AppState {
+    switch (action.type) {
+        case 'rotateImage': return { 
+            ...state, 
+            images: state.images.map(
+                (img, idx) => idx === inBound(state.index, state.images.length) 
+                    ? { ...img, rotation: img.rotation + action.payload } 
+                    : img)
+        }
+    }
+
     return state;
 }
+
+export function selectCurrentImage(state: AppState): Image {
+    return state.images[state.index];
+}
+
+export type RotateImageAction = {
+    type: 'rotateImage',
+    payload: number,
+};
+
+function inBound(idx: number, length: number): number {
+    return ((idx % length) + length) % length;
+  }
+
