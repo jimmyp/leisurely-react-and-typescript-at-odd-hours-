@@ -3,6 +3,8 @@ import { AppState, selectCurrentImage, Image } from "./store";
 
 type FrameProps = { image: Image };
 const Frame = (props: FrameProps) => {
+    console.warn(`Frame is reconstructed`);
+
   return (
     <img src={ props.image.url } 
     style={ { 
