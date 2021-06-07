@@ -1,28 +1,27 @@
-import { Dispatch } from "react";
 import { connect } from "react-redux";
-import { RotateImageAction } from "./store";
+import { NextImageAction, PrevImageAction, RotateImageAction } from "./store";
 
 type ControlsProps = {
-    // prev: () => void,
+    prev: () => void,
     rotateImage: () => void,
-    // next: () => void,
+    next: () => void,
   }
   
 const Controls = (props: ControlsProps) => {
-    const { rotateImage } = props;
+    const { rotateImage, prev, next } = props;
     return (
         <>
-            <button>Previous</button>
+            <button onClick={prev}>Previous</button>
             <button onClick={rotateImage}>Rotate</button>
-            <button>Next</button>
+            <button onClick={next}>Next</button>
         </>
     );
 };
 
-function mapDispatchToProps(dispatch: Dispatch<RotateImageAction>): ControlsProps {
-    return {
-        'rotateImage': () => dispatch({ 'type': 'rotateImage', payload: 15 })
-    };
-}
+const mapDispatchToProps: ControlsProps = {
+    rotateImage: () => ({ 'type': 'rotateImage', payload: 15 } as RotateImageAction),
+    next: () => ({ type: 'nextImage' } as NextImageAction),
+    prev: () => ({ type: 'prevImage' } as PrevImageAction),
+};
 
 export default connect(null, mapDispatchToProps)(Controls);

@@ -1,21 +1,23 @@
-import React, { memo, useCallback, useContext, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import { AppState, initialAppState, Image, selectCurrentImage } from './store';
+import { LoadImagesAction } from './store';
 import Frame from './Frame';
 import Controls from './Controls';
 import Frame2 from './Frame2';
+import { useEffect } from 'react';
 
 type Props = {
-  borderColour: 'blue' | 'red'
+  borderColour: 'blue' | 'red',
+  loadImages: () => LoadImagesAction
 };
 
 function App(props: Props) {
+  useEffect(() => { props.loadImages(); }, []);
+
   return (
     <div className="App">
       <header>
         <Frame />
-        <Frame2 />
       </header>
       <nav style={ { marginTop: '200px' } }>
         <Controls />
@@ -24,4 +26,6 @@ function App(props: Props) {
   );
 }
 
-export default App;
+export default connect(undefined, {
+  loadImages: () => ({ type: 'loadImages' as const, payload: 'tiger' })
+})(App);

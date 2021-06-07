@@ -1,5 +1,7 @@
-import { AnyAction, createStore } from "redux";
+import { AnyAction, applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./saga";
 
 export type Image = { url: string; rotation: number };
 export type AppState = { images: Image[], index: number };
@@ -14,33 +16,73 @@ export const initialAppState = {
   index: 0
 };
 
-export const store = createStore(reducer, initialAppState, composeWithDevTools());
+const sagaMiddleware = createSagaMiddleware()
+export const store = createStore(
+    reducer,
+    initialAppState,
+    composeWithDevTools(applyMiddleware(sagaMiddleware)));
+
+sagaMiddleware.run(rootSaga);
 
 // (State, Action) -> State
 function reducer(
     state: AppState = initialAppState, 
-    action: RotateImageAction | AnyAction
+    action: RotateImageAction | SetImagesAction | NextImageAction | PrevImageAction
 ): AppState {
     switch (action.type) {
-        case 'rotateImage': return { 
-            ...state, 
-            images: state.images.map(
-                (img, idx) => idx === inBound(state.index, state.images.length) 
-                    ? { ...img, rotation: img.rotation + action.payload } 
-                    : img)
-        }
+        case 'rotateImage': 
+            return { 
+                ...state, 
+                images: state.images.map(
+                    (img, idx) => idx === inBound(state.index, state.images.length) 
+                        ? { ...img, rotation: img.rotation + action.payload } 
+                        : img)
+            }
+        case 'setImages':
+            return {
+                index: 0,
+                images: action.payload
+            };
+        case 'nextImage': 
+            return {
+                ...state,
+                index: state.index + 1
+            };
+        case 'prevImage': 
+            return {
+                ...state,
+                index: state.index - 1
+            };
+        default: return state;
     }
-
-    return state;
 }
 
 export function selectCurrentImage(state: AppState): Image {
-    return state.images[state.index];
+    return state.images[inBound(state.index, state.images.length)] 
+        ?? { url: 'invalid', rotation: 45 };
 }
 
 export type RotateImageAction = {
     type: 'rotateImage',
     payload: number,
+};
+
+export type NextImageAction = {
+    type: 'nextImage'
+};
+
+export type PrevImageAction = {
+    type: 'prevImage'
+};
+
+export type LoadImagesAction = {
+    type: 'loadImages',
+    payload: string,
+};
+
+export type SetImagesAction = {
+    type: 'setImages',
+    payload: Image[],
 };
 
 function inBound(idx: number, length: number): number {
