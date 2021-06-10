@@ -12,27 +12,33 @@ export function* rootSaga() {
 export function* loadImages(
     action: LoadImagesAction
 ): Generator<{}> {
-    const images = (yield call(loadFromPixaSmart, action.payload)) as Image[];
+    const images = (yield call(loadFromPixa, action.payload)) as Image[];
 
     yield put<SetImagesAction>({ type: 'setImages', payload: images });
 }
 
 type PixaResponse = { 
     hits: {
-        webformatURL: string 
+        webformatURL: string,
+        previewURL: string,
+        largeImageURL: string,
     }[] 
 };
 
-async function loadFromPixa(searchTerm: string): Promise<Image[]> {
-    const response = await fetch(makeUrl(searchTerm));
+async function loadFromPixa({ term, size }: LoadImagesAction['payload']): Promise<Image[]> {
+    const response = await fetch(makeUrl(term));
     const json: PixaResponse = await response.json();
-    const images: Image[] = json.hits.map(h => ({ url: h.webformatURL, rotation: 0 }));
+    const images: Image[] = json.hits.map(h => ({ 
+        url: size === 'web' ? h.webformatURL :
+                size === 'large' ? h.largeImageURL : h.previewURL, 
+        rotation: 0 
+    }));
 
     return images;
 }
 
-async function loadFromPixaSmart(searchTerm: string): Promise<Image[]> {
-    const response = await searchImages(apiKey, searchTerm);
+async function loadFromPixaSmart({ term, size }: LoadImagesAction['payload']): Promise<Image[]> {
+    const response = await searchImages(apiKey, term);
 
     return response.hits.map(h => ({ url: h.webformatURL, rotation: 0 }));
 }

@@ -5,16 +5,16 @@ type ControlsProps = {
     prev: () => void,
     rotateImage: () => void,
     next: () => void,
-  }
+}
   
 const Controls = (props: ControlsProps) => {
     const { rotateImage, prev, next } = props;
     return (
-        <>
+        <div className="image-controls">
             <button onClick={prev}>Previous</button>
             <button onClick={rotateImage}>Rotate</button>
             <button onClick={next}>Next</button>
-        </>
+        </div>
     );
 };
 

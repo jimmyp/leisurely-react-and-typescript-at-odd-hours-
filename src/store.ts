@@ -3,6 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import { rootSaga } from "./saga";
 
+export type ImageSize = 'preview' | 'web' | 'large';
 export type Image = { url: string; rotation: number };
 export type AppState = { images: Image[], index: number };
 const images: Image[] = [
@@ -77,7 +78,7 @@ export type PrevImageAction = {
 
 export type LoadImagesAction = {
     type: 'loadImages',
-    payload: string,
+    payload: { term: string, size: ImageSize },
 };
 
 export type SetImagesAction = {

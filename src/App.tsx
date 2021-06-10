@@ -4,7 +4,8 @@ import { LoadImagesAction } from './store';
 import Frame from './Frame';
 import Controls from './Controls';
 import Frame2 from './Frame2';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import Search from './Search';
 
 type Props = {
   borderColour: 'blue' | 'red',
@@ -19,13 +20,14 @@ function App(props: Props) {
       <header>
         <Frame />
       </header>
-      <nav style={ { marginTop: '200px' } }>
+      <nav>
         <Controls />
       </nav>
+      <Search />
     </div>
   );
 }
 
 export default connect(undefined, {
-  loadImages: () => ({ type: 'loadImages' as const, payload: 'tiger' })
+  loadImages: () => ({ type: 'loadImages' as const, payload: { term: 'tiger', size: 'preview' } } as LoadImagesAction)
 })(App);
