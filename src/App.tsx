@@ -1,37 +1,39 @@
 import { connect } from 'react-redux';
 import './App.css';
-import { LoadImagesAction } from './store';
+import { ImageSize, LoadImagesAction } from './store';
 import Frame from './Frame';
 import Controls from './Controls';
 import Frame2 from './Frame2';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Search from './Search';
-import { Route, Router, Switch, Link } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch, Link } from 'react-router-dom';
 import { appHistory } from './history';
+import { Summary } from './Summary';
+import { Grid, Tab, Tabs } from '@material-ui/core';
+import { Nav } from './Nav';
 
 type Props = {
   borderColour: 'blue' | 'red',
   loadImages: () => LoadImagesAction
 };
 
-function App(props: Props) {
-  useEffect(() => { props.loadImages(); }, []);
+export type RouteParam = { term: string, size: ImageSize };
 
+function App(props: Props) {
   return (
-    <Router history={appHistory}>
-      <Switch>
-        <Route path="/search">
-          <Search />
-        </Route>
-        <Route path="*">
-          <header>
+      <Router>
+        <Nav />
+        <Switch>
+          <Route path="/photos/:term/:size">
             <Frame />
-          </header>
-          <Controls />
-          <Link to="/search">Search</Link>
-        </Route>
-      </Switch>
-    </Router>
+            <Controls />
+            <Summary />
+          </Route>
+          <Route path="*">
+            <Search />
+          </Route>
+        </Switch>
+      </Router>
   );
 }
 

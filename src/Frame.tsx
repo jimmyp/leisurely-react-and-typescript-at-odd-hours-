@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { connect } from "react-redux";
-import { AppState, selectCurrentImage, Image } from "./store";
+import { useParams } from "react-router";
+import { RouteParam } from "./App";
+import { AppState, selectCurrentImage, Image, ImageSize, LoadImagesAction } from "./store";
 
-type FrameProps = { image: Image };
+type FrameProps = { 
+  image: Image
+};
+
 const Frame = (props: FrameProps) => {
-    console.warn(`Frame is reconstructed`);
 
   return (
     <img src={ props.image.url } 
@@ -23,3 +28,4 @@ function mapStateToProps(state: AppState): FrameProps {
 }
 
 export default connect(mapStateToProps)(Frame);
+

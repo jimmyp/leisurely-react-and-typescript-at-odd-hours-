@@ -16,8 +16,6 @@ export function* loadImages(
     const images = (yield call(loadFromPixa, action.payload)) as Image[];
 
     yield put<SetImagesAction>({ type: 'setImages', payload: images });
-
-    appHistory.push('/frame');
 }
 
 type PixaResponse = { 
