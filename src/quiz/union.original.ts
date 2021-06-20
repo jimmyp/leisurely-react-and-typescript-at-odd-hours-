@@ -42,32 +42,12 @@ type EventOrMessage<T> = {
 
 // 1) use type narrowing
 function map<T>(eom: Event<T> | Message<T>): EventOrMessage<T> {
-    if ('kind' in eom) {
-        return {
-            type: toUniformType(eom.kind),
-            body: eom.payload
-        };
-    }
-
-    return {
-        type: toUniformType(eom.type),
-        body: eom.body
-    };
+    return {} as any;
 }
 
 // 2) use a type guard
 function map2<T>(eom: Event<T> | Message<T>): EventOrMessage<T> {
-    return isMessage(eom)
-        ? { type: toUniformType(eom.kind), body: eom.payload }
-        : { type: toUniformType(eom.type), body: eom.body };
-}
-
-function isMessage<T>(eom: Event<T> | Message<T>): eom is Message<T> {
-    return 'kind' in eom;
-}
-
-function isEvent<T>(eom: Event<T> | Message<T>): eom is Event<T> {
-    return 'type' in eom;
+    return {} as any;
 }
 
 export {};
