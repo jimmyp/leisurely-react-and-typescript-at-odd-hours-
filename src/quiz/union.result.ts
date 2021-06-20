@@ -14,6 +14,7 @@ type UniformEventType = 'create' | 'read' | 'update' | 'delete';
 
 // refine this type to avoid the problem in the implementation 
 // as a contrived example. you'll wonder what to do in types or values
+// see if you can implement it differently
 type ToUniformType<T extends MessageKind | EventType> = 
     T extends 'GET' ? 'read'
         : T extends 'REMOVE' ? 'delete'
@@ -29,7 +30,7 @@ const allTypes: MapToUniformType = {
     'UPDATE': 'update',
     'Update': 'update',
     'Read': 'read',
-    'GET': 'read',    // this is must be correct
+    'GET': 'read',    // this must be correct
     'REMOVE': 'delete',
     'Delete': 'delete'
 };
@@ -38,8 +39,6 @@ function toUniformType(ty: MessageKind | EventType): ToUniformType<typeof ty> {
     return allTypes[ty];
 }
 
-
-// define this type that 
 type EventOrMessage<T> = {
     type: UniformEventType,
     body: T
