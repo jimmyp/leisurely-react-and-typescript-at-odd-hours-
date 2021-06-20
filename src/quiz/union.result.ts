@@ -12,7 +12,7 @@ type Event<T> = {
 
 type UniformEventType = 'create' | 'read' | 'update' | 'delete';
 
-// refine this type to avoid the problem in the implementation 
+// 0) refine this type to avoid the problem in the implementation 
 // as a contrived example. you'll wonder what to do in types or values
 // see if you can implement it differently
 type ToUniformType<T extends MessageKind | EventType> = 
