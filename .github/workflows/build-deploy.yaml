@@ -34,8 +34,8 @@ jobs:
         npm ci
         npm run build
         
-    - name: tests
-      run: npm test
+    # - name: tests
+    #   run: npm test
 
     - name: Create Sentry release
       uses: getsentry/action-release@v1
