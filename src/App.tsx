@@ -11,6 +11,9 @@ import { appHistory } from './history';
 import { Summary } from './Summary';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { Nav } from './Nav';
+import { LogInCallback } from './LogInCallBack';
+import { LogIn } from './LogIn';
+import { LogOut } from './LogOut';
 
 type Props = {
   borderColour: 'blue' | 'red',
@@ -24,6 +27,18 @@ function App(props: Props) {
       <Router>
         {/* <Nav /> */}
         <Switch>
+        < Route path="/login/callback">
+            <LogInCallback />
+          </Route>
+          <Route path="/login">
+            <LogIn />
+          </Route>
+          <Route path="/logout/callback">
+            You have logged out
+          </Route>
+          <Route path="/logout">
+            <LogOut />
+          </Route>
           <Route path="/photos/:term/:size">
             <Frame />
             <Controls />

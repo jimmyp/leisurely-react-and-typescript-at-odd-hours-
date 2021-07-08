@@ -1,13 +1,15 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { LoadImagesAction, SetImagesAction, Image } from './store';
+import { LoadImagesAction, SetImagesAction, Image, SetAppUserAction, LoadUserAction } from './store';
 import { searchImages } from 'pixabay-api';
 import { appHistory } from './history';
 import { ApiConfig } from './apiConfig';
+import { AppUser, getCurrentUser } from './auth';
 
 export function createRootSaga(apiConfig: ApiConfig){
      
     function* rootSaga() {
         yield takeLatest<LoadImagesAction>('loadImages', loadImages);
+        yield takeLatest<LoadUserAction>('loadUser', loadUser);
     }
 
     function* loadImages(
@@ -27,6 +29,13 @@ export function createRootSaga(apiConfig: ApiConfig){
         }));
 
         return images;
+    }
+
+    function* loadUser(): Generator<{}> {
+        const user = (yield call(getCurrentUser)) as AppUser | undefined;
+        if (user != null) {
+            yield put<SetAppUserAction>({ type: 'setAppUser', payload: user });
+        }
     }
 
     return rootSaga;
