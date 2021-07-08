@@ -46,7 +46,7 @@ function map<T>(eom: Event<T> | Message<T>): EventOrMessage<T> {
             type: toUniformType(eom.type),
             body: eom.body
         }
-    }nvm 
+    } 
 
     return {
         type: toUniformType(eom.kind),

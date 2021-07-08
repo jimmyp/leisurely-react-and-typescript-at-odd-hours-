@@ -22,7 +22,7 @@ export type RouteParam = { term: string, size: ImageSize };
 function App(props: Props) {
   return (
       <Router>
-        <Nav />
+        {/* <Nav /> */}
         <Switch>
           <Route path="/photos/:term/:size">
             <Frame />

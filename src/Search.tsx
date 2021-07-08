@@ -54,9 +54,9 @@ function Search(props: Props) {
                     }
                 />
                 <FormHelperText>
-                    {errors.term?.message ? <p>{errors.term?.message}</p> : undefined}
-                    {errors.term?.type === 'minLength' && <p>Term must be at least 3 characters</p>}
-                    {errors.term?.type === 'required' && <p>Term is required</p>}
+                    {errors.term?.message ? errors.term?.message : undefined}
+                    {errors.term?.type === 'minLength' && 'Term must be at least 3 characters'}
+                    {errors.term?.type === 'required' && 'Term is required'}
                 </FormHelperText>
             </FormControl>
             <FormControl fullWidth margin="normal">
